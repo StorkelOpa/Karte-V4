@@ -1,0 +1,33 @@
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@keyframes slow-blink {
+    0%, 100% { background-color: transparent; color: #00ff41; }
+    50% { background-color: #00ff41; color: #0a0a0a; }
+}
+
+.fade-in-flicker {
+    opacity: 0;
+    animation: fade-in-flicker 2s forwards;
+}
+
+@keyframes fade-in-flicker {
+    0% { opacity: 0; filter: brightness(0.2); }
+    25% { opacity: 0.5; filter: brightness(1.5); }
+    50% { opacity: 0.8; filter: brightness(0.8); }
+    75% { opacity: 0.9; filter: brightness(1.1); }
+    100% { opacity: 1; filter: brightness(1); }
+}
+
+.leaflet-popup-content-wrapper {
+    animation: popup-flicker 0.5s infinite alternate;
+}
+
+@keyframes popup-flicker {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(1.1); }
+    100% { filter: brightness(1); }
+}
