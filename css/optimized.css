@@ -1,0 +1,300 @@
+/**
+ * Optimized CSS - Consolidated styles with improved organization
+ * This file demonstrates CSS optimization patterns that could be applied
+ */
+
+/* CSS Custom Properties for better maintainability */
+:root {
+    /* Color Palette */
+    --terminal-green: #00ff41;
+    --terminal-bg: #0a0a0a;
+    --terminal-grey: #2c2c2c;
+    --terminal-white: #ffffff;
+    
+    /* Typography */
+    --font-family: 'VT323', monospace;
+    --font-size-base: 1rem;
+    --font-size-large: 1.5em;
+    --font-size-xlarge: 2.5em;
+    
+    /* Spacing */
+    --spacing-xs: 2px;
+    --spacing-sm: 5px;
+    --spacing-md: 10px;
+    --spacing-lg: 20px;
+    --spacing-xl: 30px;
+    
+    /* Effects */
+    --glow-shadow: 0 0 5px var(--terminal-green);
+    --glow-shadow-strong: 0 0 10px var(--terminal-green);
+    --border-standard: 1px solid var(--terminal-green);
+    
+    /* Transitions */
+    --transition-fast: 0.2s;
+    --transition-medium: 0.5s;
+}
+
+/* Base Styles */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--font-family);
+    background-color: var(--terminal-bg);
+    color: var(--terminal-green);
+    display: flex;
+}
+
+/* Utility Classes */
+.text-glow {
+    text-shadow: var(--glow-shadow);
+}
+
+.text-glow-strong {
+    text-shadow: var(--glow-shadow-strong);
+}
+
+.border-glow {
+    border: var(--border-standard);
+    box-shadow: var(--glow-shadow);
+}
+
+.interactive {
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.interactive:hover {
+    background-color: var(--terminal-green);
+    color: var(--terminal-bg);
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+/* Button Component */
+.btn {
+    padding: var(--spacing-xs) var(--spacing-md);
+    border: var(--border-standard);
+    background-color: var(--terminal-bg);
+    color: var(--terminal-green);
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn:hover {
+    background-color: var(--terminal-green);
+    color: var(--terminal-bg);
+}
+
+.btn--primary {
+    background-color: var(--terminal-green);
+    color: var(--terminal-bg);
+    box-shadow: var(--glow-shadow-strong);
+}
+
+/* Input Component */
+.input {
+    background-color: var(--terminal-bg);
+    border: var(--border-standard);
+    color: var(--terminal-green);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-family: var(--font-family);
+}
+
+.input:focus {
+    outline: none;
+    box-shadow: var(--glow-shadow);
+}
+
+/* Typography Components */
+.heading {
+    color: var(--terminal-green);
+    text-transform: uppercase;
+    margin: 0;
+}
+
+.heading--primary {
+    font-size: var(--font-size-xlarge);
+    text-shadow: var(--glow-shadow);
+    margin-bottom: var(--spacing-lg);
+}
+
+.heading--secondary {
+    font-size: var(--font-size-large);
+    border-bottom: var(--border-standard);
+    padding-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Cursor Animation */
+.cursor::after {
+    content: "_";
+    animation: blink 1s step-end infinite;
+    margin-left: var(--spacing-sm);
+}
+
+/* Animations */
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+@keyframes slow-blink {
+    0%, 70% { opacity: 1; }
+    71%, 100% { opacity: 0.3; }
+}
+
+.blink {
+    animation: blink 1s step-end infinite;
+}
+
+.slow-blink {
+    animation: slow-blink 2s step-end infinite;
+}
+
+/* Layout Components */
+.flex {
+    display: flex;
+}
+
+.flex--center {
+    align-items: center;
+    justify-content: center;
+}
+
+.flex--between {
+    justify-content: space-between;
+}
+
+.flex--column {
+    flex-direction: column;
+}
+
+/* List Component */
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list__item {
+    padding: var(--spacing-sm) 0;
+    transition: all var(--transition-fast);
+}
+
+.list__item--interactive {
+    cursor: pointer;
+    padding: var(--spacing-sm);
+    border: 1px solid transparent;
+}
+
+.list__item--interactive:hover {
+    animation: slow-blink 2s step-end infinite;
+}
+
+/* Popup Component */
+.popup {
+    background: var(--terminal-bg);
+    border: 2px solid var(--terminal-green);
+    box-shadow: var(--glow-shadow-strong);
+    border-radius: 0;
+    font-family: var(--font-family);
+}
+
+.popup__header {
+    background-color: var(--terminal-green);
+    color: var(--terminal-bg);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popup__body {
+    padding: var(--spacing-md);
+    color: var(--terminal-green);
+}
+
+.popup__close {
+    width: 15px;
+    height: 15px;
+    border: 1px solid var(--terminal-bg);
+    text-align: center;
+    line-height: 15px;
+    cursor: pointer;
+}
+
+/* Menu Component */
+.menu {
+    position: absolute;
+    background-color: var(--terminal-bg);
+    border: var(--border-standard);
+    box-shadow: var(--glow-shadow-strong);
+    z-index: 2000;
+}
+
+.menu__list {
+    list-style: none;
+    padding: var(--spacing-sm);
+    margin: 0;
+}
+
+.menu__item {
+    padding: var(--spacing-sm) var(--spacing-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.menu__item:hover {
+    background-color: var(--terminal-green);
+    color: var(--terminal-bg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    :root {
+        --font-size-base: 0.9rem;
+        --font-size-large: 1.3em;
+        --font-size-xlarge: 2em;
+        --spacing-lg: 15px;
+        --spacing-xl: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --font-size-base: 0.8rem;
+        --font-size-large: 1.2em;
+        --font-size-xlarge: 1.8em;
+        --spacing-lg: 10px;
+        --spacing-xl: 15px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body::after {
+        display: none;
+    }
+    
+    .interactive,
+    .btn,
+    .menu {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+    }
+}

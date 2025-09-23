@@ -1,92 +1,176 @@
-import { flyToLocation } from './map.js';
+// This module handles all UI interactions for the lebenslauf page.
+// It does not know about the map directly, it only calls the handlers it's given.
 
-const contentContainer = document.getElementById('content');
-const startButton = document.querySelector('.start-button');
-const startMenu = document.getElementById('start-menu');
-
-function runBootSequence() {
-    const bootSequence = document.getElementById('boot-sequence');
-    const mainMenu = document.getElementById('main-menu');
-    if (!bootSequence || !mainMenu) return;
-    const paragraphs = bootSequence.querySelectorAll('p');
-    let i = 0;
-
-    paragraphs.forEach(p => p.style.display = 'none');
-
-    function showLine() {
-        if (i < paragraphs.length) {
-            paragraphs[i].style.display = 'block';
-            i++;
-            setTimeout(showLine, Math.random() * 200 + 50);
-        } else {
-            setTimeout(() => {
-                mainMenu.style.display = 'block';
-                mainMenu.classList.add('fade-in-flicker');
-            }, 300);
-        }
-    }
-
-    showLine();
+/**
+ * Creates a taskbar button for a CV location
+ * @param {string} locationName - The name of the CV location
+ */
+function createTaskbarButton(locationName) {
+    const minimizedContainer = document.querySelector('.minimized-windows');
+    if (!minimizedContainer) return;
+    
+    // Check if button already exists
+    const existing = minimizedContainer.querySelector(`[data-location="${locationName}"]`);
+    if (existing) return;
+    
+    const taskbarButton = document.createElement('div');
+    taskbarButton.className = 'minimized-window active-taskbar-item';
+    taskbarButton.setAttribute('data-location', locationName);
+    
+    const titleSpan = document.createElement('span');
+    titleSpan.textContent = locationName;
+    taskbarButton.appendChild(titleSpan);
+    
+    const closeButton = document.createElement('span');
+    closeButton.textContent = 'X';
+    closeButton.className = 'close-minimized-window';
+    closeButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        // Remove taskbar button
+        minimizedContainer.removeChild(taskbarButton);
+        // Hide associated layers
+        hideLocationLayers(locationName);
+        // Update checkboxes
+        updateCheckboxesForLocation(locationName, false);
+    });
+    taskbarButton.appendChild(closeButton);
+    
+    // Click to focus/zoom to this location
+    taskbarButton.addEventListener('click', (event) => {
+        if (event.target === closeButton) return;
+        // Focus on this location
+        focusOnLocation(locationName);
+    });
+    
+    minimizedContainer.appendChild(taskbarButton);
+    
+    // Update checkboxes for this location
+    updateCheckboxesForLocation(locationName, true);
 }
 
-function loadContent(url) {
-    const cacheBustUrl = url + '?t=' + new Date().getTime();
-    return fetch(cacheBustUrl)
-        .then(response => response.text())
-        .then(html => {
-            contentContainer.innerHTML = html;
-            if (url === 'home.html') {
-                runBootSequence();
-            }
-        })
-        .catch(error => {
-            console.error('Fehler beim Laden des Inhalts:', error);
-            contentContainer.innerHTML = '<p>Inhalt konnte nicht geladen werden.</p>';
+/**
+ * Updates checkboxes for a specific location
+ * @param {string} locationName - The name of the location
+ * @param {boolean} checked - Whether checkboxes should be checked
+ */
+function updateCheckboxesForLocation(locationName, checked) {
+    // Find the CV item for this location
+    const cvItems = document.querySelectorAll('#lebenslauf-liste li[data-name]');
+    cvItems.forEach(item => {
+        if (item.dataset.name === locationName) {
+            const checkboxes = item.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = checked;
+            });
+        }
+    });
+}
+
+/**
+ * Synchronizes all checkboxes based on active taskbar buttons
+ */
+function synchronizeAllCheckboxes() {
+    const minimizedContainer = document.querySelector('.minimized-windows');
+    if (!minimizedContainer) return;
+    
+    // Get all active locations from taskbar
+    const activeLocations = new Set();
+    const taskbarButtons = minimizedContainer.querySelectorAll('[data-location]');
+    taskbarButtons.forEach(button => {
+        activeLocations.add(button.dataset.location);
+    });
+    
+    // Update all checkboxes based on active locations
+    const allCheckboxes = document.querySelectorAll('#lebenslauf-liste .layer-controls input[type="checkbox"]');
+    allCheckboxes.forEach(checkbox => {
+        checkbox.checked = false; // Reset all first
+    });
+    
+    // Set checkboxes for active locations
+    activeLocations.forEach(locationName => {
+        updateCheckboxesForLocation(locationName, true);
+    });
+}
+
+/**
+ * Hides layers for a specific location
+ * @param {string} locationName - The name of the location
+ */
+function hideLocationLayers(locationName) {
+    // Dispatch custom event to notify map module
+    window.dispatchEvent(new CustomEvent('hideLocationLayers', { 
+        detail: { locationName } 
+    }));
+}
+
+/**
+ * Focuses on a specific location
+ * @param {string} locationName - The name of the location
+ */
+function focusOnLocation(locationName) {
+    // Dispatch custom event to notify map module
+    window.dispatchEvent(new CustomEvent('focusOnLocation', { 
+        detail: { locationName } 
+    }));
+}
+
+/**
+ * Loads HTML content from a given URL into a specified target element.
+ * @param {string} url - The URL of the HTML content to load.
+ * @param {string} targetElementId - The ID of the element where the content should be loaded.
+ */
+export async function loadContent(url, targetElementId) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const content = await response.text();
+        document.getElementById(targetElementId).innerHTML = content;
+        return Promise.resolve(); // Resolve the promise on successful load
+    } catch (error) {
+        console.error(`Failed to load content from ${url}:`, error);
+        document.getElementById(targetElementId).innerHTML = `<p style="color: red;">Error loading content.</p>`;
+        return Promise.reject(error); // Reject the promise on error
+    }
+}
+
+/**
+ * Initializes the UI event listeners for the CV page.
+ * @param {function(string): void} onCvItemClick - Handler to call when a CV item is clicked.
+ * @param {function(string, boolean): void} onLayerToggle - Handler to call when a checkbox is toggled.
+ */
+export function initUI(onCvItemClick, onLayerToggle) {
+    const allCheckboxes = document.querySelectorAll('#lebenslauf-liste .layer-controls input[type="checkbox"]');
+    
+    allCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', (event) => {
+            const layerName = event.target.dataset.layer;
+            // Call the provided handler function
+            onLayerToggle(layerName, event.target.checked);
         });
-}
-
-function handleContentInteraction(e) {
-    const target = e.target;
-    const navItem = target.closest('.nav-item');
-    const dataCoordsItem = target.closest('li[data-coords]');
-
-    if (navItem) {
-        e.preventDefault();
-        
-        const allNavItems = document.querySelectorAll('.nav-item');
-        allNavItems.forEach(nav => nav.classList.remove('active'));
-        
-        navItem.classList.add('active');
-        const contentUrl = navItem.getAttribute('data-content');
-        if (contentUrl) {
-            loadContent(contentUrl);
-        }
-        startMenu.style.display = 'none';
-        return; 
-    }
-
-    if (dataCoordsItem) {
-        const dataName = dataCoordsItem.getAttribute('data-name');
-        if (dataName) {
-            flyToLocation(dataName);
-        }
-    }
-}
-
-export function initUI() {
-    contentContainer.addEventListener('click', handleContentInteraction);
-    startMenu.addEventListener('click', handleContentInteraction);
-
-    startButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        startMenu.style.display = startMenu.style.display === 'block' ? 'none' : 'block';
     });
 
-    document.addEventListener('click', (e) => {
-        if (!startMenu.contains(e.target) && e.target !== startButton) {
-            startMenu.style.display = 'none';
-        }
-    });
+    const listItems = document.querySelectorAll('#lebenslauf-liste li');
+    listItems.forEach(item => {
+        item.addEventListener('click', (event) => {
+            // Ignore clicks on the checkboxes themselves
+            if (event.target.type === 'checkbox') return;
+            
+            // Visual feedback: highlight the active item
+            listItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
 
-    loadContent('home.html');
+            const dataName = item.dataset.name;
+            
+            // Call the provided handler function
+            onCvItemClick(dataName);
+
+            // Create taskbar button for this CV item
+            createTaskbarButton(dataName);
+
+            // Synchronize all checkboxes based on active taskbar buttons
+            synchronizeAllCheckboxes();
+        });
+    });
 }

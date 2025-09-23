@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"name": "2_kontext",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "fid": 1, "name": "Haltestelle Hasselbachplatz", "typ": "kontext_poi_oepnv", "beschreibung": "Zentraler Knotenpunkt für Tram-Linien." }, "geometry": { "type": "Point", "coordinates": [ 11.62811693528775, 52.120893199539417 ] } },
+{ "type": "Feature", "properties": { "fid": 2, "name": "Asia Wok", "typ": "kontext_poi_gastro", "beschreibung": "Guter Ort für ein günstiges Mittagessen" }, "geometry": { "type": "Point", "coordinates": [ 11.629299744708145, 52.121654176813898 ] } },
+{ "type": "Feature", "properties": { "fid": 3, "name": "Elbehuhn 53", "typ": "kontext_poi_gastro", "beschreibung": "Falls es Shawarma in der Mittagspause werden soll." }, "geometry": { "type": "Point", "coordinates": [ 11.627119858914179, 52.121532680411107 ] } },
+{ "type": "Feature", "properties": { "fid": 4, "name": "EDEKA", "typ": "kontext_poi_gastro", "beschreibung": "Wenn das Mittagessen günstig und schnell sein muss." }, "geometry": { "type": "Point", "coordinates": [ 11.630289788160844, 52.122649885257061 ] } },
+{ "type": "Feature", "properties": { "fid": 1, "name": "Hasselbachplatz", "typ": "kontext_flaeche_platz", "beschreibung": "Öffentlicher Platz und Verkehrsknotenpunkt." }, "geometry": { "type": "Polygon", "coordinates": [ [ [ 11.627443373274561, 52.120155567175331 ], [ 11.627727247535455, 52.120141434663857 ], [ 11.627737477238551, 52.120208171484201 ], [ 11.628013679222125, 52.120308669095721 ], [ 11.628067385163375, 52.120265486556036 ], [ 11.628228502987128, 52.12045391914944 ], [ 11.628115976253079, 52.120490820439031 ], [ 11.628068663876263, 52.120692599290791 ], [ 11.628124927243286, 52.120723219347987 ], [ 11.62783338070507, 52.120890451596949 ], [ 11.627757936644743, 52.120901443365987 ], [ 11.62734363366938, 52.120844129111951 ], [ 11.627358978224024, 52.12076875683006 ], [ 11.627064874260034, 52.120546564882403 ], [ 11.627124973765719, 52.120360488088117 ], [ 11.627444651987446, 52.120195609266844 ], [ 11.627443373274561, 52.120155567175331 ] ] ] } }
+]
+}
