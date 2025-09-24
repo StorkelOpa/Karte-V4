@@ -1,0 +1,55 @@
+/**
+ * Centralized Theme for the Application
+ * Contains CSS Custom Properties (variables) for colors, typography, spacing, and effects.
+ */
+
+:root {
+    /* Color Palette */
+    --terminal-primary: #FFBF00; /* Amber */
+    --terminal-bg: #0a0a0a;
+    --terminal-grey: #2c2c2c;
+    --terminal-white: #ffffff;
+
+    /* Typography */
+    --font-family: 'VT323', monospace;
+    --font-size-base: 1rem;
+    --font-size-large: 1.5em;
+    --font-size-xlarge: 2.5em;
+
+    /* Spacing */
+    --spacing-xs: 2px;
+    --spacing-sm: 5px;
+    --spacing-md: 10px;
+    --spacing-lg: 20px;
+    --spacing-xl: 30px;
+
+    /* Effects */
+    --glow-shadow: 0 0 5px var(--terminal-primary);
+    --glow-shadow-strong: 0 0 10px var(--terminal-primary);
+    --border-standard: 1px solid var(--terminal-primary);
+
+    /* Transitions */
+    --transition-fast: 0.2s;
+    --transition-medium: 0.5s;
+}
+
+/* Responsive Design Adjustments for Theme Variables */
+@media (max-width: 768px) {
+    :root {
+        --font-size-base: 0.9rem;
+        --font-size-large: 1.3em;
+        --font-size-xlarge: 2em;
+        --spacing-lg: 15px;
+        --spacing-xl: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --font-size-base: 0.8rem;
+        --font-size-large: 1.2em;
+        --font-size-xlarge: 1.8em;
+        --spacing-lg: 10px;
+        --spacing-xl: 15px;
+    }
+}

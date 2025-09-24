@@ -54,19 +54,25 @@ function createTaskbarButton(locationName) {
  * @param {boolean} checked - Whether checkboxes should be checked
  */
 function updateCheckboxesForLocation(locationName, checked) {
-    // Find the CV item for this location
-    const cvItems = document.querySelectorAll('#lebenslauf-liste li[data-name]');
+    const cvItems = document.querySelectorAll(`#lebenslauf-liste li[data-name="${locationName}"]`);
     cvItems.forEach(item => {
-        if (item.dataset.name === locationName) {
-            const checkboxes = item.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = checked;
-                // Trigger change event to ensure layers are actually toggled
-                if (checked) {
-                    checkbox.dispatchEvent(new Event('change'));
-                }
-            });
-        }
+        const checkboxes = item.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            const layerName = checkbox.dataset.layer;
+            const isAnker = layerName.endsWith(' - Anker');
+
+            if (checked) {
+                // If activating, check only the "Anker" checkbox
+                checkbox.checked = isAnker;
+            } else {
+                // If deactivating, uncheck all
+                checkbox.checked = false;
+            }
+
+            // Manually trigger the change event to update the map
+            const event = new Event('change', { bubbles: true });
+            checkbox.dispatchEvent(event);
+        });
     });
 }
 
@@ -150,31 +156,34 @@ export function initUI(onCvItemClick, onLayerToggle) {
     allCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', (event) => {
             const layerName = event.target.dataset.layer;
-            // Call the provided handler function
             onLayerToggle(layerName, event.target.checked);
         });
     });
 
     const listItems = document.querySelectorAll('#lebenslauf-liste li');
     listItems.forEach(item => {
-        item.addEventListener('click', (event) => {
-            // Ignore clicks on the checkboxes themselves
-            if (event.target.type === 'checkbox') return;
-            
-            // Visual feedback: highlight the active item
-            listItems.forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
+        const header = item.querySelector('.lebenslauf-header');
+        const toggle = item.querySelector('.details-toggle');
 
-            const dataName = item.dataset.name;
-            
-            // Call the provided handler function
-            onCvItemClick(dataName);
+        if (header) {
+            header.addEventListener('click', () => {
+                listItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                const dataName = item.dataset.name;
+                onCvItemClick(dataName);
+                createTaskbarButton(dataName);
+                updateCheckboxesForLocation(dataName, true);
+            });
+        }
 
-            // Create taskbar button for this CV item
-            createTaskbarButton(dataName);
-
-            // Synchronize all checkboxes based on active taskbar buttons
-            synchronizeAllCheckboxes();
-        });
+        if (toggle) {
+            toggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const details = item.querySelector('.lebenslauf-details');
+                if (details) {
+                    details.style.display = details.style.display === 'none' ? 'block' : 'none';
+                }
+            });
+        }
     });
 }
