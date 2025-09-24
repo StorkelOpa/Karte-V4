@@ -1,4 +1,5 @@
-import { initMap, flyToLocationAndActivateLayers, toggleLayer, hideLocationLayers, focusOnLocation } from './modules/map.js';
+import { initMap } from './modules/map-core.js';
+import { flyToLocationAndActivateLayers, toggleLayer, hideLocationLayers, focusOnLocation } from './modules/map-layers.js';
 import { initUI, loadContent } from './modules/ui.js';
 import { initHomePage } from './modules/home.js';
 

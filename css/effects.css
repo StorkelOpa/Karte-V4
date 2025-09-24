@@ -5,8 +5,8 @@
 }
 
 @keyframes slow-blink {
-    0%, 100% { background-color: transparent; color: #00ff41; }
-    50% { background-color: #00ff41; color: #0a0a0a; }
+    0%, 100% { background-color: transparent; color: var(--terminal-primary); }
+    50% { background-color: var(--terminal-primary); color: var(--terminal-bg); }
 }
 
 
@@ -33,7 +33,7 @@ body::after {
 /* Enhanced CV Item Hover Effects */
 .cv-content li[data-name] {
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all var(--transition-fast);
 }
 
 .cv-content li[data-name]:hover {
@@ -42,16 +42,16 @@ body::after {
 
 /* Active CV Item Styling */
 .cv-content li[data-name].active {
-    background-color: #2c2c2c;
-    border: 1px solid #00ff41;
+    background-color: var(--terminal-grey);
+    border: var(--border-standard);
 }
 
 /* Enhanced Popup Effects */
 .leaflet-popup-content-wrapper {
     animation: popup-flicker 0.5s infinite alternate;
-    background: #0a0a0a !important;
-    border: 2px solid #00ff41 !important;
-    box-shadow: 0 0 10px #00ff41 !important;
+    background: var(--terminal-bg) !important;
+    border: 2px solid var(--terminal-primary) !important;
+    box-shadow: var(--glow-shadow-strong) !important;
     border-radius: 0 !important;
 }
 
@@ -63,9 +63,9 @@ body::after {
 
 /* Taskbar Active Item Glow */
 .active-taskbar-item {
-    box-shadow: 0 0 15px 5px #00ff41 !important;
-    background-color: #00ff41 !important;
-    color: #0a0a0a !important;
+    box-shadow: 0 0 15px 5px var(--terminal-primary) !important;
+    background-color: var(--terminal-primary) !important;
+    color: var(--terminal-bg) !important;
 }
 
 /* Blinking Cursor for Headers */
@@ -73,7 +73,7 @@ body::after {
 .cv-content h2::after {
     content: "_";
     animation: blink 1s step-end infinite;
-    margin-left: 5px;
+    margin-left: var(--spacing-sm);
 }
 
 /* Popup Body Cursor */
@@ -92,14 +92,14 @@ body::after {
     font-size: 20px;
     text-align: center;
     line-height: 24px;
-    filter: drop-shadow(0 0 3px #00ff41);
-    color: #00ff41; /* Unified terminal green */
+    filter: drop-shadow(0 0 3px var(--terminal-primary));
+    color: var(--terminal-primary); /* Unified terminal green */
     transition: filter 0.3s ease;
 }
 
 /* Subtle hover effects only */
 .retro-marker:hover .retro-icon-content {
-    filter: drop-shadow(0 0 6px #00ff41) drop-shadow(0 0 10px #00ff41);
+    filter: drop-shadow(0 0 6px var(--terminal-primary)) drop-shadow(0 0 10px var(--terminal-primary));
 }
 
 /* Remove all distracting animations - keep only hover glow */
@@ -108,8 +108,8 @@ body::after {
 .poi-tram .retro-icon-content,
 .story-start .retro-icon-content,
 .workplace .retro-icon-content {
-    color: #00ff41; /* All icons unified terminal green */
-    filter: drop-shadow(0 0 3px #00ff41);
+    color: var(--terminal-primary); /* All icons unified terminal green */
+    filter: drop-shadow(0 0 3px var(--terminal-primary));
 }
 
 /* Subtle hover glow for all icons */
@@ -118,16 +118,16 @@ body::after {
 .poi-tram:hover .retro-icon-content,
 .story-start:hover .retro-icon-content,
 .workplace:hover .retro-icon-content {
-    filter: drop-shadow(0 0 6px #00ff41) drop-shadow(0 0 10px #00ff41);
+    filter: drop-shadow(0 0 6px var(--terminal-primary)) drop-shadow(0 0 10px var(--terminal-primary));
 }
 
 /* Remove excessive keyframe animations */
 @keyframes retro-subtle-glow {
     0%, 100% { 
-        filter: drop-shadow(0 0 3px #00ff41);
+        filter: drop-shadow(0 0 3px var(--terminal-primary));
     }
     50% { 
-        filter: drop-shadow(0 0 6px #00ff41);
+        filter: drop-shadow(0 0 6px var(--terminal-primary));
     }
 }
 
