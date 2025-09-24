@@ -1,2 +1,17 @@
-# Ignore Gemini specific files
-.gemini/
+# Environment variables
+.env
+.env.*
+
+# Dependencies
+/node_modules
+
+# Build artifacts
+/dist
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
