@@ -50,6 +50,32 @@
     padding: var(--spacing-sm);
     border: 1px solid transparent;
     transition: all var(--transition-fast);
+    cursor: pointer;
+}
+
+.lebenslauf-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
+
+.details-toggle {
+    color: var(--terminal-secondary);
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: var(--spacing-sm);
+    display: inline-block;
+}
+
+.lebenslauf-details {
+    display: none; /* Initially hidden */
+    margin-top: var(--spacing-md);
+    padding-left: var(--spacing-md);
+    border-left: 1px dotted var(--terminal-secondary);
+}
+
+.layer-controls {
+    margin-top: var(--spacing-md);
 }
 
 .cv-content li[data-coords] {

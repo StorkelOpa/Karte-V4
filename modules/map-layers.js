@@ -183,13 +183,29 @@ function zoomToActiveLocations(map, geojsonLayers) {
  * @param {string} locationKey The key to identify which layers to activate (e.g., "MDR").
  */
 export function flyToLocationAndActivateLayers(map, geojsonLayers, locationKey) {
-    // Add to active locations
     activeLocations.add(locationKey);
-    
-    // Add layers for this location with proper z-index
-    addLocationLayers(map, geojsonLayers, locationKey);
-    
-    // Zoom to show all active locations
+
+    // Deactivate all layers first to ensure a clean state
+    for (const layerName in geojsonLayers) {
+        if (layerName.includes(locationKey)) {
+            const layer = geojsonLayers[layerName];
+            if (map.hasLayer(layer)) {
+                map.removeLayer(layer);
+            }
+        }
+    }
+
+    // Activate only the "Anker" layer by default
+    const ankerLayerName = `${locationKey} - Anker`;
+    if (geojsonLayers[ankerLayerName]) {
+        const ankerLayer = geojsonLayers[ankerLayerName];
+        if (!map.hasLayer(ankerLayer)) {
+            map.addLayer(ankerLayer);
+            setLayerZIndex(ankerLayer, 'anker', ankerLayerName);
+        }
+    }
+
+    // Zoom to the bounds of the anker layer
     zoomToActiveLocations(map, geojsonLayers);
 }
 
