@@ -128,7 +128,7 @@
 
 .close-minimized-window {
     position: absolute;
-    right: 5px;
+    right: 2px;
     top: 50%;
     transform: translateY(-50%);
     color: #00ff41;
@@ -138,11 +138,15 @@
     line-height: 1;
     background-color: transparent;
     border: none;
-    padding: 0;
+    padding: 2px 4px;
+    z-index: 10;
+    min-width: 16px;
+    text-align: center;
 }
 
 .close-minimized-window:hover {
     color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .close-cv-button {
@@ -184,9 +188,23 @@
     display: none;
 }
 
-/* Hide Leaflet's default close button to prevent double X */
+/* Style Leaflet's default close button */
 .leaflet-popup-close-button {
-    display: none !important;
+    background-color: #00ff41 !important;
+    color: #0a0a0a !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    width: 20px !important;
+    height: 20px !important;
+    text-align: center !important;
+    line-height: 18px !important;
+    border: 1px solid #0a0a0a !important;
+    cursor: pointer !important;
+}
+
+.leaflet-popup-close-button:hover {
+    background-color: #ffffff !important;
+    color: #0a0a0a !important;
 }
 
 .popup-title-bar {

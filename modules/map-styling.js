@@ -134,13 +134,14 @@ export function getFeatureStyle(feature) {
                 style.weight = 2;
                 break;
             case 'erzaehlung_route_fahrrad':
-                style.color = color; // Use the actual color (green)
+                style.color = color; // Use the actual color (white)
                 style.weight = 4; // Solid line for bike
                 style.dashArray = null; // Solid for bike routes
                 style.opacity = 0.9;
                 style.fillOpacity = 0;
                 break;
             case 'erzaehlung_route_tram':
+            case 'erzaehlung_route_oepnv':
                 style.color = color; // Use the actual color (amber)
                 style.weight = 6; // Thicker for tram
                 style.dashArray = '12, 8'; // Dashed for tram

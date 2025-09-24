@@ -37,21 +37,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             toggleLayer(map, geojsonLayers, layerName, isVisible);
         };
 
-        // 3. Apply fade-in-flicker to main elements (only on initial load)
-        document.getElementById('map').classList.add('fade-in-flicker');
-        document.querySelector('.sidebar').classList.add('fade-in-flicker');
-        document.querySelector('.taskbar').classList.add('fade-in-flicker');
-
-        // 4. Load home.html by default
+        // 3. Load home.html by default
         await loadContent('pages/home.html', 'content');
         initHomePage();
-
-        // Remove fade-in-flicker after initial boot sequence
-        setTimeout(() => {
-            document.getElementById('map').classList.remove('fade-in-flicker');
-            document.querySelector('.sidebar').classList.remove('fade-in-flicker');
-            document.querySelector('.taskbar').classList.remove('fade-in-flicker');
-        }, 2500); // Remove after animation completes
 
         // Add event listeners for navigation items
         const navItems = document.querySelectorAll('.nav-item');

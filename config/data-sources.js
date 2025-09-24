@@ -90,8 +90,9 @@ export const RETRO_COLORS = {
     
     // Feature-specific colors
     anker_polygon: '#0080ff',
-    erzaehlung_route_fahrrad: '#00ff41',
+    erzaehlung_route_fahrrad: '#ffffff',
     erzaehlung_route_tram: '#ffaa00',
+    erzaehlung_route_oepnv: '#ffaa00',
     erzaehlung_route_fuss: '#00ffff',
     kontext_flaeche_gruen: '#00cc33',
     kontext_flaeche_platz: '#808080',

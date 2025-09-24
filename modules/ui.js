@@ -61,6 +61,10 @@ function updateCheckboxesForLocation(locationName, checked) {
             const checkboxes = item.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(checkbox => {
                 checkbox.checked = checked;
+                // Trigger change event to ensure layers are actually toggled
+                if (checked) {
+                    checkbox.dispatchEvent(new Event('change'));
+                }
             });
         }
     });
